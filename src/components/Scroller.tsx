@@ -49,7 +49,7 @@ export default function Scroller(): JSX.Element {
 							className="List"
 							height={height}
 							itemCount={rowsStatus.length}
-							itemSize={300}
+							itemSize={500}
 							onItemsRendered={onItemsRendered}
 							ref={ref}
 							width={width}
