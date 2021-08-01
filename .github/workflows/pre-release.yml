@@ -1,0 +1,42 @@
+---
+name: "Pre-Release"
+
+on:
+  push:
+    branches:
+      - "master"
+    tags-ignore:
+      - "*"
+
+jobs:
+  pre_release:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v2
+        with:
+            node-version: 14
+
+      - name: Build extension
+        run: npm install
+        run: npm build
+        run: ls -l
+
+      - name: Zipping extension
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r extension.zip build
+
+      - name: Create release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: extension.zip
+        id: "automatic_releases"
