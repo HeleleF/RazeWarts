@@ -43,5 +43,5 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: true
           title: "Build @ ${{ steps.date.outputs.date }}"
-          files: *.zip
+          files: "*.zip"
         id: "automatic_releases"
