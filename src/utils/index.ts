@@ -68,9 +68,9 @@ export class SWLoader {
 	async loadMoreRows(start: number, stop: number): Promise<void> {
 		logger.warn(`Loading rows ${start} to ${stop} inclusive`);
 
-		const cnt = stop - start + 1;
+		//const cnt = stop - start + 1;
 
-		const itemsNeeded = cnt * this.ITEMS_PER_ROW;
+		//const itemsNeeded = cnt * this.ITEMS_PER_ROW;
 
 		const startPage = Math.floor((start * this.ITEMS_PER_ROW) / this.ITEMS_PER_PAGE);
 		const endPage = Math.floor((stop * this.ITEMS_PER_ROW) / this.ITEMS_PER_PAGE);
