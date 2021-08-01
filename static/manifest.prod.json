@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Raze Warts",
+    "version": "0.0.1",
+  
+    "description": "Enables Infinite Scrolling for SW",
+  
+    "icons": {
+      "32": "32.png"
+    },
+  
+    "content_scripts": [
+      {
+        "matches": ["<PUT_SW_URL_HERE>"],
+        "js": ["content.js"],
+        "css": ["content.css"],
+        "run_at": "document_start"
+      }
+    ]
+  }

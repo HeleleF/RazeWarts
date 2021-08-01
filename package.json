@@ -1,0 +1,61 @@
+{
+  "name": "raze-warts",
+  "version": "0.0.1",
+  "description": "Enabling Infinite Scrolling for SW",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "concurrently \"npm:serve\" \"npm:dev\"",
+    "serve": "python -m http.server --directory static/mock 8009",
+    "dev": "webpack --config webpack.dev.config.ts",
+    "build": "webpack --config webpack.prod.config.ts",
+    "lint": "eslint src/ --ext .ts,.tsx",
+    "prettier": "prettier \"src/**/*.{ts,tsx}\" --check",
+    "prettier:fix": "prettier \"src/**/*.{ts,tsx}\" --write"
+  },
+  "keywords": [
+    "react",
+    "chrome extension",
+    "infinite scroll"
+  ],
+  "author": "HeleleF",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-virtualized-auto-sizer": "^1.0.5",
+    "react-window": "^1.8.6",
+    "react-window-infinite-loader": "^1.0.7",
+    "regenerator-runtime": "^0.13.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/plugin-transform-runtime": "^7.14.5",
+    "@babel/preset-env": "^7.14.8",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@babel/runtime": "^7.14.8",
+    "@types/copy-webpack-plugin": "^8.0.1",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
+    "@types/react-window": "^1.8.4",
+    "@types/react-window-infinite-loader": "^1.0.4",
+    "@types/webpack": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "concurrently": "^6.2.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.2.13",
+    "prettier": "^2.3.2",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5",
+    "webpack": "^5.46.0",
+    "webpack-cli": "^4.7.2"
+  }
+}
