@@ -1,10 +1,20 @@
-import { SWArticle } from '../types/sw';
+import { SWRow } from '../types/sw';
+import Article from './Article';
 
 interface RowProps {
 	loaded: boolean;
-	data?: SWArticle;
+	data?: SWRow;
 }
 
 export default function Row({ data, loaded }: RowProps): JSX.Element {
-	return <div className="Row">{loaded ? `Row ${data?.title}` : 'Loading...'}</div>;
+	if (!loaded) {
+		return <div className="Row">{'Loading...'}</div>;
+	}
+	return (
+		<div className="Row">
+			{data?.map((art) => (
+				<Article key={art.link} data={art} />
+			))}
+		</div>
+	);
 }
