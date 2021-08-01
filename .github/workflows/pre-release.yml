@@ -25,10 +25,16 @@ jobs:
       - run: npm run build
       - run: ls -l
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Zipping extension
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r extension.zip build
+          args: zip -qq -r extension_build_${{ steps.date.outputs.date }}.zip build
+
+      - run: ls -l
 
       - name: Create release
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -36,6 +42,6 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
-          title: "Development Build"
-          files: extension.zip
+          title: "Build @ ${{ steps.date.outputs.date }}"
+          files: *.zip
         id: "automatic_releases"
