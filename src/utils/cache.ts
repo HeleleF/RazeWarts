@@ -12,10 +12,10 @@ export class SWCache {
 
 		this.internal_cache = c ? JSON.parse(c) : {};
 
-		logger.error('Cache setup');
+		logger.info('Cache setup');
 
 		window.onbeforeunload = () => {
-			//localStorage.setItem('SW_CACHE', JSON.stringify(this.internal_cache));
+			localStorage.setItem('SW_CACHE', JSON.stringify(this.internal_cache));
 			return '';
 		};
 	}
