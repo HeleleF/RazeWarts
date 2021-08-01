@@ -11,7 +11,7 @@
   
     "content_scripts": [
       {
-        "matches": ["<PUT_SW_URL_HERE>"],
+        "matches": ["<PUT_SW_URL_HERE>/*"],
         "js": ["content.js"],
         "css": ["content.css"],
         "run_at": "document_start"

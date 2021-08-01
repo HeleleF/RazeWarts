@@ -42,3 +42,5 @@ export interface SWArticle {
 	excerpt: string;
 	date: string;
 }
+
+export type SWRow = [SWArticle, SWArticle, SWArticle, SWArticle];
