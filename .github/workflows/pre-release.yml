@@ -41,7 +41,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
-          prerelease: true
-          title: "Build @ ${{ steps.date.outputs.date }}"
+          prerelease: false
+          title: "Build@${{ steps.date.outputs.date }}"
           files: "*.zip"
         id: "automatic_releases"
