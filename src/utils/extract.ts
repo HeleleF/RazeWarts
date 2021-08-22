@@ -4,6 +4,8 @@ import { getLogger } from './utils';
 const logger = getLogger('extract');
 const dp = new DOMParser();
 
+const EXCERPT_START_MARKER = 'Description:';
+
 function parseHtml(data: string): Document | null {
 	try {
 		return dp.parseFromString(data, 'text/html');
@@ -13,10 +15,20 @@ function parseHtml(data: string): Document | null {
 	}
 }
 
+function getExcerpt(article: HTMLElement): string {
+	const text = article.querySelector('.jeg_post_excerpt')?.textContent?.trim();
+
+	if (!text) {
+		return 'Excerpt not found';
+	}
+	const index = text.indexOf(EXCERPT_START_MARKER);
+
+	return index === -1 ? text : text.slice(index + EXCERPT_START_MARKER.length);
+}
+
 function extractArticle(article: HTMLElement): SWArticle {
 	const title = article.querySelector('.jeg_post_title')?.textContent?.trim() ?? 'Title not found';
-	const excerpt =
-		article.querySelector('.jeg_post_excerpt')?.textContent?.trim() ?? 'Excerpt not found';
+	const excerpt = getExcerpt(article);
 	const date = article.querySelector('.jeg_meta_date')?.textContent?.trim() ?? 'Date not found';
 	const link = article.querySelector('a')?.href ?? 'Link not found';
 	const thumbnail = article.querySelector('img')?.dataset.src ?? 'Thumb not found';
