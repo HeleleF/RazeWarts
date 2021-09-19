@@ -7,13 +7,20 @@ interface RowProps {
 }
 
 export default function Row({ data, loaded }: RowProps): JSX.Element {
-	if (!loaded) {
-		return <div className="Row">{'Loading...'}</div>;
+	if (!loaded || data === undefined) {
+		return (
+			<div className="Row Row-Loading">
+				<Article key={0} isPlaceholder />
+				<Article key={1} isPlaceholder />
+				<Article key={2} isPlaceholder />
+				<Article key={3} isPlaceholder />
+			</div>
+		);
 	}
 	return (
 		<div className="Row">
-			{data?.map((art) => (
-				<Article key={art.link} data={art} />
+			{data.map((art, idx) => (
+				<Article key={idx} data={art} isPlaceholder={false} />
 			))}
 		</div>
 	);

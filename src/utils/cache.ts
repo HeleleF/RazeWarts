@@ -1,4 +1,4 @@
-import { SWArticle } from '../types/sw';
+import { SiteInfo, SWArticle } from '../types/sw';
 import { getLogger } from './utils';
 
 const logger = getLogger('cache');
@@ -8,16 +8,21 @@ export class SWCache {
 	private internal_cache: Record<string, SWArticle[]>;
 
 	private constructor() {
-		const c = localStorage.getItem('SW_CACHE');
+		const c = sessionStorage.getItem('SW_CACHE');
 
 		this.internal_cache = c ? JSON.parse(c) : {};
 
 		logger.info('Cache setup');
+	}
 
-		window.onbeforeunload = () => {
-			localStorage.setItem('SW_CACHE', JSON.stringify(this.internal_cache));
-			return '';
-		};
+	getSiteInfo(): SiteInfo | null {
+		const info = sessionStorage.getItem('SW_SITE_INFO');
+
+		return info !== null ? JSON.parse(info) : null;
+	}
+
+	setSiteInfo(info: SiteInfo): void {
+		sessionStorage.setItem('SW_SITE_INFO', JSON.stringify(info));
 	}
 
 	get(key: string): SWArticle[] | undefined {
@@ -25,6 +30,7 @@ export class SWCache {
 	}
 	set(key: string, value: SWArticle[]): void {
 		this.internal_cache[key] = value;
+		sessionStorage.setItem('SW_CACHE', JSON.stringify(this.internal_cache));
 	}
 
 	static getInstance(): SWCache {

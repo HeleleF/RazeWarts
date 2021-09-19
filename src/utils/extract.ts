@@ -1,10 +1,13 @@
 import { SWArticle } from '../types/sw';
 import { getLogger } from './utils';
 
+import fallbackImage from '../assets/404.png';
+
 const logger = getLogger('extract');
 const dp = new DOMParser();
 
 const EXCERPT_START_MARKER = 'Description:';
+const EXCERPT_END_MARKER = 'NFO:';
 
 function parseHtml(data: string): Document | null {
 	try {
@@ -21,9 +24,17 @@ function getExcerpt(article: HTMLElement): string {
 	if (!text) {
 		return 'Excerpt not found';
 	}
-	const index = text.indexOf(EXCERPT_START_MARKER);
+	const startIndex = text.indexOf(EXCERPT_START_MARKER);
+	const endIndex = text.indexOf(EXCERPT_END_MARKER);
 
-	return index === -1 ? text : text.slice(index + EXCERPT_START_MARKER.length);
+	if (startIndex === -1) {
+		return text;
+	}
+
+	return text.slice(
+		startIndex + EXCERPT_START_MARKER.length,
+		endIndex === -1 ? undefined : endIndex
+	);
 }
 
 function extractArticle(article: HTMLElement): SWArticle {
@@ -31,7 +42,7 @@ function extractArticle(article: HTMLElement): SWArticle {
 	const excerpt = getExcerpt(article);
 	const date = article.querySelector('.jeg_meta_date')?.textContent?.trim() ?? 'Date not found';
 	const link = article.querySelector('a')?.href ?? 'Link not found';
-	const thumbnail = article.querySelector('img')?.dataset.src ?? 'Thumb not found';
+	const thumbnail = article.querySelector('img')?.dataset.src ?? fallbackImage;
 
 	return {
 		title,

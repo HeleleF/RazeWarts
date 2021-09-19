@@ -1,13 +1,24 @@
 import Header from './Header';
 import Scroller from './Scroller';
+import SingleRelease from './SingleRelease';
 
-export default function App(): JSX.Element {
+interface AppProps {
+	isSingleRelease: boolean;
+}
+
+export default function App({ isSingleRelease }: AppProps): JSX.Element {
 	return (
 		<div className="App">
 			<Header />
-			<div className="ScrollContainer">
-				<Scroller />
-			</div>
+			{isSingleRelease ? (
+				<div className="SingleReleaseContainer">
+					<SingleRelease />
+				</div>
+			) : (
+				<div className="ScrollContainer">
+					<Scroller />
+				</div>
+			)}
 		</div>
 	);
 }

@@ -35,6 +35,19 @@ export function getPageFrag(pageNumber: number): string {
 	return `/page/${pageNumber}`;
 }
 
+export function getSearchQuery(searchValue?: string): string {
+	if (searchValue === undefined) {
+		return '';
+	}
+
+	if (searchValue === '') {
+		logger.warn('Empty search value, will be ignored');
+		return '';
+	}
+
+	return `?s=${searchValue}`;
+}
+
 export interface SWArticle {
 	title: string;
 	link: string;
@@ -43,4 +56,10 @@ export interface SWArticle {
 	date: string;
 }
 
-export type SWRow = [SWArticle, SWArticle, SWArticle, SWArticle];
+export type SWRow = [SWArticle, SWArticle | null, SWArticle | null, SWArticle | null];
+
+export interface SiteInfo {
+	imageLogoUrl: string;
+	numberOfPages: number;
+	jsonData: Record<string, unknown>[];
+}
