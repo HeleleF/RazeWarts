@@ -1,9 +1,10 @@
 import { resolve } from 'path';
-import { Configuration } from 'webpack';
+import { Configuration, ProgressPlugin } from 'webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
-const outDir = resolve(__dirname, 'build');
+const outDir = resolve(__dirname, 'prod');
 
 const config: Configuration = {
 	mode: 'production',
@@ -36,12 +37,18 @@ const config: Configuration = {
 					},
 				},
 			},
+			{
+				test: /\.png/,
+				type: 'asset/inline',
+			},
 		],
 	},
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js'],
 	},
 	plugins: [
+		new ProgressPlugin(),
+		new CleanWebpackPlugin(),
 		new CopyPlugin({
 			patterns: [
 				{

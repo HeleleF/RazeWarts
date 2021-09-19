@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { SWLoader } from '.';
 import App from '../components/App';
 import { SWCategory } from '../types/sw';
+import { SWCache } from './cache';
 import { extract } from './extract';
 
 // https://stackoverflow.com/a/49966753
@@ -92,17 +93,23 @@ export function rebuildPage(): void {
 	const logo = document.body.querySelector<HTMLImageElement>('.jeg_logo_img')?.src ?? '';
 
 	const num = document.querySelector('.jeg_pagination a:last-of-type')?.previousElementSibling;
-	const np = (num as HTMLElement).dataset.id;
+	const np = (num as HTMLElement)?.dataset.id;
+
+	const isSingleRelease = jsonSchemaData.length === 2;
 
 	SWLoader.getInstance().setInitialData({
 		articles: initialArticles,
 		numberOfPages: parseInt(np ?? '0', 10),
 		category: SWCategory.NONE,
 	});
+	SWCache.getInstance().set('P0C', initialArticles);
 
 	document.body = document.createElement('body');
 	document.head.innerHTML = rebuildHeader();
 	document.documentElement.removeAttribute('class');
+
+	const root = document.createElement('div');
+	document.body.appendChild(root);
 
 	return render(
 		<StrictMode>
@@ -114,10 +121,10 @@ export function rebuildPage(): void {
 					logo,
 				}}
 			>
-				<App />
+				<App isSingleRelease={isSingleRelease} />
 			</SWContext.Provider>
 		</StrictMode>,
-		document.body
+		root
 	);
 }
 
@@ -130,7 +137,7 @@ export function getJSON(script: HTMLScriptElement): Record<string, unknown> {
 	try {
 		return JSON.parse(str);
 	} catch (error) {
-		getLogger('json').error(error.message);
+		getLogger('json').error((error as Error).message);
 		return {};
 	}
 }

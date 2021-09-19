@@ -6,9 +6,9 @@ import CopyPlugin from 'copy-webpack-plugin';
 const outDir = resolve(__dirname, 'build');
 
 const config: Configuration = {
-	mode: 'production',
-	entry: ['./src/index.ts'],
-	devtool: false,
+	mode: 'development',
+	entry: './src/index.ts',
+	devtool: 'source-map',
 	output: {
 		path: outDir,
 		filename: 'content.js',
@@ -35,6 +35,10 @@ const config: Configuration = {
 						],
 					},
 				},
+			},
+			{
+				test: /\.png/,
+				type: 'asset/inline',
 			},
 		],
 	},

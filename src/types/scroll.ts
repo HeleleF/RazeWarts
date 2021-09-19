@@ -9,4 +9,5 @@ export enum RowStatus {
 export interface ItemProps {
 	style: CSSProperties;
 	index: number;
+	isScrolling?: boolean;
 }

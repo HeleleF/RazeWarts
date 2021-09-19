@@ -1,8 +1,13 @@
 import { SWArticle } from '../types/sw';
 import { getLogger } from './utils';
 
+import fallbackImage from '../assets/404.png';
+
 const logger = getLogger('extract');
 const dp = new DOMParser();
+
+const EXCERPT_START_MARKER = 'Description:';
+const EXCERPT_END_MARKER = 'NFO:';
 
 function parseHtml(data: string): Document | null {
 	try {
@@ -13,13 +18,31 @@ function parseHtml(data: string): Document | null {
 	}
 }
 
+function getExcerpt(article: HTMLElement): string {
+	const text = article.querySelector('.jeg_post_excerpt')?.textContent?.trim();
+
+	if (!text) {
+		return 'Excerpt not found';
+	}
+	const startIndex = text.indexOf(EXCERPT_START_MARKER);
+	const endIndex = text.indexOf(EXCERPT_END_MARKER);
+
+	if (startIndex === -1) {
+		return text;
+	}
+
+	return text.slice(
+		startIndex + EXCERPT_START_MARKER.length,
+		endIndex === -1 ? undefined : endIndex
+	);
+}
+
 function extractArticle(article: HTMLElement): SWArticle {
 	const title = article.querySelector('.jeg_post_title')?.textContent?.trim() ?? 'Title not found';
-	const excerpt =
-		article.querySelector('.jeg_post_excerpt')?.textContent?.trim() ?? 'Excerpt not found';
+	const excerpt = getExcerpt(article);
 	const date = article.querySelector('.jeg_meta_date')?.textContent?.trim() ?? 'Date not found';
 	const link = article.querySelector('a')?.href ?? 'Link not found';
-	const thumbnail = article.querySelector('img')?.dataset.src ?? 'Thumb not found';
+	const thumbnail = article.querySelector('img')?.dataset.src ?? fallbackImage;
 
 	return {
 		title,

@@ -66,13 +66,31 @@ select {
   }
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     display: none;
+  } */
+
+  @keyframes loading-fade {
+    0% {
+      background-position: 0 0;
+    }
+  
+    to {
+      background-position: -200% 0;
+    }
+  }
+  
+  .fading {
+    animation: loading-fade 1.75s ease infinite;
+    background: linear-gradient(90deg, #272729, #343536, #272729);
+    background-size: 200%;
   }
 
   .Header {
       height: 80px;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 2px solid rgb(224, 224, 224);
       padding: 0.5em;
   }
@@ -101,6 +119,10 @@ select {
     justify-content: space-evenly;
   }
 
+  .Row-Loading {
+    background-color: black;
+  }
+
   .Article {
     width: 24vw;
     display: flex;
@@ -108,7 +130,6 @@ select {
   align-items: center;
   justify-content: space-between;
   height: 500px;
-  cursor: pointer;
   transition: all 0.5s ease;
   padding: 1em;
 }
@@ -120,6 +141,7 @@ select {
 .Article-title-link {
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .Article-title {
@@ -128,9 +150,22 @@ select {
   text-align: center;
 }
 
+.Article-title-loading {
+  height: 45px;
+  width: 330px;
+  background-color: wheat;
+}
+
 .Article-thumb {
   border-radius: 15px;
   border: 1px dashed #484848;
+}
+
+.Article-thumb-loading {
+  height: 400px;
+  width: 350px;
+  border-radius: 15px;
+  background-color: thistle;
 }
 
 .Article-excerpt {
@@ -144,6 +179,7 @@ select {
   width: 350px;
   height: 400px;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  cursor: pointer;
 }
 
 /* This container is needed to position the front and back side */
@@ -179,3 +215,23 @@ select {
 .flip-card-back {
   transform: rotateY(180deg);
 }
+
+.Search-input {
+  width: 250px;
+  border-radius: 3px;
+  height: 40px;
+  padding-left: 0.5em;
+  color: white;
+
+  border-color: #545454;
+  background-color: #545454;
+}
+
+.Search-input:focus-visible {
+  outline: white auto 1px;
+}
+
+.Search-input::placeholder {
+  color: whtie
+}
+

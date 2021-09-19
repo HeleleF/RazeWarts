@@ -1,10 +1,21 @@
 import { SWArticle } from '../types/sw';
 
-type ArticleBodyProps = Pick<SWArticle, 'title' | 'link'>;
+interface PlaceholderHeader {
+	isPlaceholder: true;
+}
+type ArticleHeader = Pick<SWArticle, 'title' | 'link'> & { isPlaceholder: false };
 
-export default function ArticleHeader({ title, link }: ArticleBodyProps): JSX.Element {
+type ArticleHeaderProps = PlaceholderHeader | ArticleHeader;
+
+export default function ArticleHeader(props: ArticleHeaderProps): JSX.Element {
+	if (props.isPlaceholder) {
+		return <div className="Article-title-loading fading"></div>;
+	}
+
+	const { link, title } = props;
+
 	return (
-		<a className="Article-title-link" href={link} referrerPolicy={'no-referrer'}>
+		<a className="Article-title-link" href={link} target="_blank" rel="noopener noreferrer">
 			<h1 className="Article-title">{title}</h1>
 		</a>
 	);
